@@ -94,11 +94,11 @@ function ConvertHandler() {
     const lbsToKg = 0.453592;
     const miToKm = 1.60934;
     const map = {
-      km: 1 / miToKm,
+      km: -miToKm,
       mi: miToKm,
       lbs: lbsToKg,
-      kg: 1 / lbsToKg,
-      L: 1 / galToL,
+      kg: -lbsToKg,
+      L: -galToL,
       gal: galToL
     }
 
@@ -106,6 +106,9 @@ function ConvertHandler() {
 
     if (!multiplier) { return Number('NaN') }
 
+    if (multiplier < 0) {
+      return Number(initNum) / -multiplier;
+    }
     return Number(initNum) * multiplier;
   };
 
