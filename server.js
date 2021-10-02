@@ -31,11 +31,19 @@ fccTestingRoutes(app);
 //Routing for API
 apiRoutes(app);
 
-//404 Not Found Middleware
 app.use(function(err, req, res, next) {
+  if (err) {
+    res.status(500)
+      .type('text')
+      .send(err.message || 'Something went wrong');
+  }
+});
+
+//404 Not Found Middleware
+app.use(function(req, res, next) {
   res.status(404)
     .type('text')
-    .send(err ? (err.message || 'Something went wrong') : 'Not Found');
+    .send('Not Found');
 });
 
 const port = process.env.PORT || 3000;

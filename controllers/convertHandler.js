@@ -106,7 +106,7 @@ function ConvertHandler() {
 
     if (!multiplier) { return Number('NaN') }
 
-    return initNum * multiplier;
+    return Number(initNum) * multiplier;
   };
 
   this.getString = function(initNum, initUnit, returnNum, returnUnit) {
