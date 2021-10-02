@@ -107,9 +107,9 @@ function ConvertHandler() {
     if (!multiplier) { return Number('NaN') }
 
     if (multiplier < 0) {
-      return (Number(initNum) / -multiplier).toPrecision(6);
+      return (Number(initNum) / -multiplier).toPrecision(5);
     }
-    return (Number(initNum) * multiplier).toPrecision(6);
+    return (Number(initNum) * multiplier).toPrecision(5);
   };
 
   this.getString = function(initNum, initUnit, returnNum, returnUnit) {
