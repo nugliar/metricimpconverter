@@ -107,9 +107,9 @@ function ConvertHandler() {
     if (!multiplier) { return Number('NaN') }
 
     if (multiplier < 0) {
-      return (Number(initNum) / -multiplier).toPrecision(5);
+      return (Number(initNum) / -multiplier);
     }
-    return (Number(initNum) * multiplier).toPrecision(5);
+    return (Number(initNum) * multiplier);
   };
 
   this.getString = function(initNum, initUnit, returnNum, returnUnit) {
@@ -118,8 +118,8 @@ function ConvertHandler() {
     if (UNITS.indexOf(initUnit) < 0) { return null }
     if (UNITS.indexOf(returnUnit) < 0) { return null }
 
-    return `${initNum} ${spell(initUnit)} converts to ` +
-      `${returnNum} ${spell(returnUnit)}`;
+    return `${Number(initNum).toPrecision(6)} ${spell(initUnit)} converts to `
+      + `${Number(returnNum).toPrecision(6)} ${spell(returnUnit)}`;
   };
 
 }
