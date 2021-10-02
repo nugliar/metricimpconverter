@@ -18,11 +18,11 @@ module.exports = function (app) {
     const initUnit = convertHandler.getUnit(input);
 
     if (isNaN(initNum) && null === initUnit) {
-      return next(new Error('Invalid number and unit'));
+      return next(new Error('invalid number and unit'));
     } else if (isNaN(initNum)) {
-      return next(new Error('Invalid number'));
+      return next(new Error('invalid number'));
     } else if (null === initUnit) {
-      return next(new Error('Invalid unit'));
+      return next(new Error('invalid unit'));
     }
 
     const returnUnit = convertHandler.getReturnUnit(initUnit);
