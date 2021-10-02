@@ -33,8 +33,7 @@ apiRoutes(app);
 
 app.use(function(err, req, res, next) {
   if (err) {
-    res.status(500)
-      .type('text')
+    res.type('text')
       .send(err.message || 'Something went wrong');
   }
 });

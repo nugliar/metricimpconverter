@@ -60,8 +60,7 @@ suite('Functional Tests', function() {
       .get('/api/convert?input=' + randomNum + randomUnit)
       .end(function(err, res) {
         if (err) { console.log(err); }
-        assert.notEqual(res.status, 200);
-        assert.equal(res.error.text, 'Invalid unit');
+        assert.equal(res.text, 'Invalid unit');
         done();
       })
   });
@@ -75,8 +74,7 @@ suite('Functional Tests', function() {
       .get('/api/convert?input=' + encodeURIComponent(randomNum) + randomUnit)
       .end(function(err, res) {
         if (err) { console.log(err); }
-        assert.notEqual(res.status, 200);
-        assert.equal(res.error.text, 'Invalid number');
+        assert.equal(res.text, 'Invalid number');
         done();
       })
   });
@@ -93,8 +91,7 @@ suite('Functional Tests', function() {
       )
       .end(function(err, res) {
         if (err) { console.log(err); }
-        assert.notEqual(res.status, 200);
-        assert.equal(res.error.text, 'Invalid number and unit');
+        assert.equal(res.text, 'Invalid number and unit');
         done();
       })
   });
