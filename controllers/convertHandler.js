@@ -1,20 +1,31 @@
 const UNITS = [ 'km', 'mi', 'lbs', 'kg', 'L', 'gal' ];
+const CONVERT_UNITS = [ 'mi', 'km', 'kg', 'lbs', 'gal', 'L' ];
+const SPELLED_UNITS = [
+  'kilometers',
+  'miles',
+  'pounds',
+  'kilograms',
+  'litres',
+  'gallons'
+];
+const NUMERIC = /^.*[0-9./-]/g;
+const ALPHA = /[a-zA-Z]*$/g;
 
 function ConvertHandler() {
 
   this.getNum = function(input) {
-    const numeric = /^[0-9\.][0-9\.\/]*/g;
     const ratio = /\//g;
     const decimal = /\./g;
     const nan = new Number('NaN');
     let numbers;
     let match;
+    let result;
 
     if (typeof input !== 'string') {
       return nan;
     }
 
-    if (!(numbers = input.match(numeric))) {
+    if (null === (numbers = input.match(NUMERIC))) {
       return 1;
     }
 
@@ -30,47 +41,82 @@ function ConvertHandler() {
     }
 
     if (numbers.length === 1) {
-      return parseFloat(numbers[0]);
+      result = Number(numbers[0]);
     } else if (numbers.length === 2) {
-      return parseFloat(numbers[0]) / parseFloat(numbers[1]);
+      result = Number(numbers[0]) / Number(numbers[1]);
     }
 
-    return nan;
+    if (isNaN(result) || result < 0) {
+      return nan;
+    }
+    return result;
   };
 
   this.getUnit = function(input) {
-    const notNumeric = /[~0-9\.\/]*$/;
+    let match;
 
-    let result = input.match(notNumeric);
+    if (typeof input !== 'string') {
+      return nan;
+    }
+    if (null === (match = input.match(ALPHA))) {
+      return null;
+    }
 
-    return result;
+    const unit = match[0].toLowerCase();
+
+    for (idx in UNITS) {
+      if (unit === UNITS[idx].toLowerCase()) {
+        return UNITS[idx].slice();
+      }
+    }
+
+    return null;
   };
 
   this.getReturnUnit = function(initUnit) {
-    let result;
+    const idx = UNITS.indexOf(initUnit);
 
-    return result;
+    if (idx < 0) { return null }
+
+    return CONVERT_UNITS[idx].slice();
   };
 
   this.spellOutUnit = function(unit) {
-    let result;
+    const idx = UNITS.indexOf(unit);
 
-    return result;
+    if (idx < 0) { return null }
+
+    return SPELLED_UNITS[idx].slice();
   };
 
   this.convert = function(initNum, initUnit) {
     const galToL = 3.78541;
     const lbsToKg = 0.453592;
     const miToKm = 1.60934;
-    let result;
+    const map = {
+      km: 1 / miToKm,
+      mi: miToKm,
+      lbs: lbsToKg,
+      kg: 1 / lbsToKg,
+      L: 1 / galToL,
+      gal: galToL
+    }
 
-    return result;
+    const multiplier = map[initUnit];
+
+    if (!multiplier) { return Number('NaN') }
+
+    return initNum * multiplier;
   };
 
   this.getString = function(initNum, initUnit, returnNum, returnUnit) {
-    let result;
+    const spell = unit => SPELLED_UNITS[UNITS.indexOf(unit)];
 
-    return result;
+    if (UNITS.indexOf(initUnit) < 0) { return null }
+    if (UNITS.indexOf(returnUnit) < 0) { return null }
+
+    return `${initNum} ${spell(initUnit)} converts to ` +
+      `${returnNum} ${spell(returnUnit)}`;
   };
 
 }
