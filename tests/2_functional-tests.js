@@ -33,6 +33,9 @@ const invalidUnit = () => {
     .join(String.fromCharCode(Math.floor(97 + (Math.random() * 100) % 26)));
 }
 
+const roundTo = (num, to) => {
+  return Math.round((num + Number.EPSILON) * Math.pow(10, to)) / Math.pow(10, to)
+}
 
 suite('Functional Tests', function() {
   test('Test GET /api/convert with valid input', function(done) {
@@ -45,7 +48,7 @@ suite('Functional Tests', function() {
       .end(function(err, res) {
         if (err) { done(err) }
         assert.equal(res.status, 200);
-        assert.equal(res.body.initNum, randomNum);
+        assert.equal(res.body.initNum, roundTo(randomNum, 5));
         assert.equal(res.body.initUnit, randomUnit);
         done();
       })

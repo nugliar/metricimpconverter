@@ -4,6 +4,10 @@ const ConvertHandler = require('../controllers/convertHandler.js');
 
 let convertHandler = new ConvertHandler();
 
+const roundTo = (num, to) => {
+  return Math.round((num + Number.EPSILON) * Math.pow(10, to)) / Math.pow(10, to)
+}
+
 suite('Unit Tests', function(){
   test('Integer', function() {
     assert.strictEqual(123, convertHandler.getNum('123mi'));
@@ -14,7 +18,7 @@ suite('Unit Tests', function(){
   });
 
   test('Fraction', function() {
-    assert.strictEqual(1 / 23, convertHandler.getNum('1/23mi'));
+    assert.strictEqual(roundTo(1 / 23, 5), convertHandler.getNum('1/23mi'));
   });
 
   test('Double fraction', function() {
@@ -83,7 +87,7 @@ suite('Unit Tests', function(){
     units.forEach(unit => {
       const initNum = Math.random() * 100;
       assert.strictEqual(
-        initNum * map[unit],
+        roundTo(initNum * map[unit], 5),
         convertHandler.convert(initNum, unit)
       );
     });
