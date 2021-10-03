@@ -21,6 +21,10 @@ suite('Unit Tests', function(){
     assert.strictEqual(roundTo(1 / 23, 5), convertHandler.getNum('1/23mi'));
   });
 
+  test('Fraction with decimal', function() {
+    assert.strictEqual(roundTo(1 / 2.3, 5), convertHandler.getNum('1/2.3mi'));
+  });
+
   test('Double fraction', function() {
     assert.isTrue(isNaN(convertHandler.getNum('1/2/3mi')));
   });
@@ -71,20 +75,20 @@ suite('Unit Tests', function(){
     });
   });
 
-  test('Convert unit', function() {
-    const units = [ 'km', 'mi', 'lbs', 'kg', 'L', 'gal' ];
-    const galToL = 3.78541;
-    const lbsToKg = 0.453592;
-    const miToKm = 1.60934;
-    const map = {
-      km: 1 / miToKm,
-      mi: miToKm,
-      lbs: lbsToKg,
-      kg: 1 / lbsToKg,
-      L: 1 / galToL,
-      gal: galToL
-    }
-    units.forEach(unit => {
+  const units = [ 'km', 'mi', 'lbs', 'kg', 'L', 'gal' ];
+  const galToL = 3.78541;
+  const lbsToKg = 0.453592;
+  const miToKm = 1.60934;
+  const map = {
+    km: 1 / miToKm,
+    mi: miToKm,
+    lbs: lbsToKg,
+    kg: 1 / lbsToKg,
+    L: 1 / galToL,
+    gal: galToL
+  }
+  units.forEach(unit => {
+    test(`Convert ${unit}`, function() {
       const initNum = Math.random() * 100;
       assert.strictEqual(
         roundTo(initNum * map[unit], 5),
