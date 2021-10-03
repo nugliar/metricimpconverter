@@ -11,6 +11,10 @@ const SPELLED_UNITS = [
 const NUMERIC = /^.*[0-9./-]/g;
 const ALPHA = /[a-zA-Z]*$/g;
 
+const roundTo = (num, to) => {
+  return Math.round((num + Number.EPSILON) * Math.pow(10, to)) / Math.pow(10, to)
+}
+
 function ConvertHandler() {
 
   this.getNum = function(input) {
@@ -49,7 +53,7 @@ function ConvertHandler() {
     if (isNaN(result) || result < 0) {
       return nan;
     }
-    return result;
+    return roundTo(result, 5);
   };
 
   this.getUnit = function(input) {
@@ -107,9 +111,9 @@ function ConvertHandler() {
     if (!multiplier) { return Number('NaN') }
 
     if (multiplier < 0) {
-      return (Number(initNum) / -multiplier);
+      return roundTo(Number(initNum) / -multiplier, 5);
     }
-    return (Number(initNum) * multiplier);
+    return roundTo(Number(initNum) * multiplier, 5);
   };
 
   this.getString = function(initNum, initUnit, returnNum, returnUnit) {
@@ -118,8 +122,8 @@ function ConvertHandler() {
     if (UNITS.indexOf(initUnit) < 0) { return null }
     if (UNITS.indexOf(returnUnit) < 0) { return null }
 
-    return `${Number(initNum).toPrecision(6)} ${spell(initUnit)} converts to `
-      + `${Number(returnNum).toPrecision(6)} ${spell(returnUnit)}`;
+    return `${roundTo(Number(initNum), 5)} ${spell(initUnit)} converts to `
+      + `${roundTo(Number(returnNum), 5)} ${spell(returnUnit)}`;
   };
 
 }
